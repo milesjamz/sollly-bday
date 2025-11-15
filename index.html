@@ -274,9 +274,27 @@
         }
         resizeCanvas();
 
-        // Define constellation points to form "10"
-        // "1" on left side of image, "0" on right side
-        const constellationPoints = [
+        function getConstellationPoints() {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                return [
+            // "1" - vertical line (left of image)
+            { x: 0.2, y: 0.30, id: 1 },
+            { x: 0.2, y: 0.38, id: 2 },
+            { x: 0.2, y: 0.46, id: 3 },
+            { x: 0.2, y: 0.54, id: 4 },
+            // "0" - circle (right of image)
+            { x: 0.8, y: 0.30, id: 5 },   // top
+            { x: 0.82, y: 0.34, id: 6 },   // top-right
+            { x: 0.84, y: 0.42, id: 7 },   // right
+            { x: 0.82, y: 0.50, id: 8 },   // bottom-right
+            { x: 0.8, y: 0.54, id: 9 },   // bottom
+            { x: 0.77, y: 0.50, id: 10 },  // bottom-left
+            { x: 0.75, y: 0.42, id: 11 },  // left
+            { x: 0.77, y: 0.34, id: 12 }   // top-left
+        ];
+        } else {
+            return [
             // "1" - vertical line (left of image)
             { x: 0.3, y: 0.30, id: 1 },
             { x: 0.3, y: 0.38, id: 2 },
@@ -291,7 +309,11 @@
             { x: 0.67, y: 0.50, id: 10 },  // bottom-left
             { x: 0.65, y: 0.42, id: 11 },  // left
             { x: 0.67, y: 0.34, id: 12 }   // top-left
-        ];
+            ]
+        }
+    }
+
+    const constellationPoints = getConstellationPoints();
 
         // Connections for "10"
         const connections = [
@@ -393,7 +415,11 @@ cameo.addEventListener('click', () => {
 
         // Handle window resize
         window.addEventListener('resize', () => {
-            resizeCanvas();
+    const newPoints = getConstellationPoints();
+    constellationPoints.length = 0;
+    constellationPoints.push(...newPoints);
+    resizeCanvas();
+    drawConstellation();
         });
 
         // Initialize
