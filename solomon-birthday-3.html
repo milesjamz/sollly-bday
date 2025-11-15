@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Solomon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Fraunces", serif;
+            background: linear-gradient(to bottom, #0a0e27 0%, #1a1a3e 50%, #0f0c29 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Star field background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, transparent, white, transparent);
+            border-radius: 50%;
+            animation: shoot 1.5s ease-out forwards;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        @keyframes shoot {
+            from {
+                transform: translateX(0) translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(1000px) translateY(500px);
+                opacity: 0;
+            }
+        }
+
+        /* Constellation canvas */
+        #constellation-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Main content */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 50px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                         0 0 40px rgba(100, 150, 255, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5), 0 0 40px rgba(100, 150, 255, 0.3); }
+            to { text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 60px rgba(100, 150, 255, 0.6); }
+        }
+
+        /* Cameo image */
+        .cameo-container {
+            margin: 40px auto;
+            width: 250px;
+            height: 320px;
+            position: relative;
+        }
+
+        .cameo {
+            width: 100%;
+            height: 100%;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            overflow: hidden;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(100, 150, 255, 0.5),
+                        inset 0 0 20px rgba(100, 150, 255, 0.2);
+            position: relative;
+        }
+
+        .cameo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Placeholder for image */
+        .cameo-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Message section */
+        .message {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .cameo-container {
+                width: 180px;
+                height: 230px;
+            }
+
+            .message {
+                font-size: 1rem;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background stars -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Constellation canvas -->
+    <canvas id="constellation-canvas"></canvas>
+
+    <!-- Main content -->
+    <div class="container">
+        <h1>Happy Birthday, Solomon!</h1>
+        
+        <div class="cameo-container">
+            <div class="cameo">
+                <!-- Replace the placeholder div with an img tag and your image -->
+                <img src="solomon-baby.jpg" alt="Solomon">
+                <!-- <div class="cameo-placeholder">Add photo here</div> -->
+            </div>
+        </div>
+
+        <div class="message">
+            <p>
+               Happy birthday, Solly - I remember when you were that little dude your Mom and Dad just brought home from the hospital,
+               life moves fast! I hope you're having a lot of fun and taking good care of your dog.
+            </p>
+            <p>
+                All the best,
+            </p>
+            <p>Miles</p>
+        </div>
+    </div>
+
+    <script>
+        // Create background stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                const size = Math.random() * 3 + 1;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${Math.random() * 100}%`;
+                star.style.top = `${Math.random() * 100}%`;
+                star.style.setProperty('--duration', `${Math.random() * 3 + 2}s`);
+                star.style.setProperty('--delay', `${Math.random() * 3}s`);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create shooting star
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            
+            const x = Math.random() * (document.body.scrollWidth * 0.5);
+            const y = Math.random() * (document.body.scrollHeight * 0.3);
+            
+            star.style.left = `${x}px`;
+            star.style.top = `${y}px`;
+            star.style.width = `${Math.random() * 100 + 50}px`;
+            
+            document.body.appendChild(star);
+            
+            setTimeout(() => star.remove(), 1500);
+        }
+
+        // Random shooting stars
+        function randomShootingStars() {
+            setInterval(() => {
+                if (Math.random() > 0.6) {
+                    createShootingStar();
+                }
+            }, 2000);
+        }
+
+        // Auto-animating constellation forming "10"
+        const canvas = document.getElementById('constellation-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            canvas.width = document.body.scrollWidth;
+            canvas.height = Math.max(document.body.scrollHeight, window.innerHeight);
+        }
+        resizeCanvas();
+
+        // Define constellation points to form "10"
+        // "1" on left side of image, "0" on right side
+        const constellationPoints = [
+            // "1" - vertical line (left of image)
+            { x: 0.3, y: 0.30, id: 1 },
+            { x: 0.3, y: 0.38, id: 2 },
+            { x: 0.3, y: 0.46, id: 3 },
+            { x: 0.3, y: 0.54, id: 4 },
+            // "0" - circle (right of image)
+            { x: 0.7, y: 0.30, id: 5 },   // top
+            { x: 0.72, y: 0.34, id: 6 },   // top-right
+            { x: 0.74, y: 0.42, id: 7 },   // right
+            { x: 0.72, y: 0.50, id: 8 },   // bottom-right
+            { x: 0.7, y: 0.54, id: 9 },   // bottom
+            { x: 0.67, y: 0.50, id: 10 },  // bottom-left
+            { x: 0.65, y: 0.42, id: 11 },  // left
+            { x: 0.67, y: 0.34, id: 12 }   // top-left
+        ];
+
+        // Connections for "10"
+        const connections = [
+            [1, 2], [2, 3], [3, 4], // "1"
+            [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 11], [11, 12], [12, 5] // "0"
+        ];
+
+        let activeConnections = [];
+        let connectionIndex = 0;
+        let animationStarted = false;
+
+        // Draw constellation stars (small dots)
+        function drawStars() {
+            constellationPoints.forEach(point => {
+                const x = point.x * canvas.width;
+                const y = point.y * canvas.height;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = 'rgba(255, 255, 255, 0.8)';
+                ctx.fill();
+            });
+        }
+
+        // Draw active constellation lines with glow effect
+        function drawConstellationLines() {
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.8)';
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = 'rgba(255, 215, 0, 1)';
+            
+            activeConnections.forEach(([id1, id2]) => {
+                const point1 = constellationPoints.find(p => p.id === id1);
+                const point2 = constellationPoints.find(p => p.id === id2);
+                
+                const x1 = point1.x * canvas.width;
+                const y1 = point1.y * canvas.height;
+                const x2 = point2.x * canvas.width;
+                const y2 = point2.y * canvas.height;
+                
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            });
+        }
+
+        // Animate constellation - gradually reveal connections
+        function animateConstellation() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Always draw the constellation stars
+            drawStars();
+            
+            // Draw active lines
+            drawConstellationLines();
+            
+            requestAnimationFrame(animateConstellation);
+        }
+
+        // Gradually activate connections over time
+        function revealConnections() {
+            if (connectionIndex < connections.length) {
+                activeConnections.push(connections[connectionIndex]);
+                connectionIndex++;
+                
+                // Random interval between 800-1500ms for organic feel
+                const nextDelay = Math.random() * 700 + 800;
+                setTimeout(revealConnections, nextDelay);
+            } else {
+                // Once complete, occasionally pulse/flicker
+                setInterval(() => {
+                    if (Math.random() > 0.7) {
+                        // Remove a random connection briefly
+                        const tempConnection = activeConnections.pop();
+                        setTimeout(() => {
+                            activeConnections.push(tempConnection);
+                        }, 300);
+                    }
+                }, 3000);
+            }
+        }
+
+        // Start the constellation animation after a brief delay
+        setTimeout(() => {
+            animationStarted = true;
+            revealConnections();
+        }, 2000);
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+        });
+
+        // Initialize
+        createStars();
+        randomShootingStars();
+        animateConstellation();
+    </script>
+</body>
+</html>
